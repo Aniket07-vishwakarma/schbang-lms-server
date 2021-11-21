@@ -12,6 +12,9 @@ var userCartData = new schema({
             "imgUrl": {type: String, default: ""}
         }
     ]
+}, 
+{
+    timestamps: true
 });
 
 module.exports = mongoose.model("userCartData", userCartData);

@@ -9,13 +9,31 @@ const nodemailer = require('nodemailer');
 let userController = {};
 
 //save all user login data
-userController.userLoginData = (req, res) => {
-
+userController.userLoginData = (req, res) => {    
     let userId = jwt.sign(req.body.emailAdd, "eComm");
     req.body = Object.assign(req.body, { "userId": userId });
 
     let userLoginData = new userLoginModel(req.body);
     userLoginData.save((err, data) => {
+        if (err) {
+            res.status(401).json({
+                error: err
+            });
+        } else {
+            res.status(200).json({
+                msg: "user login data save",
+                data: data
+            });
+        }
+    })
+}
+
+//Get login data of user
+userController.getLoginDataOfUser = (req, res) => {
+    let userId = jwt.sign(req.body.emailAdd, "eComm");
+    req.body = Object.assign(req.body, { "userId": userId });
+
+    userLoginModel.find({userId: req.body.userId}, (err, data) => {
         if (err) {
             res.status(401).json({
                 error: err
@@ -133,6 +151,21 @@ userController.saveOrderData = (req, res) => {
             sendAMail(data).catch(console.error); // send email to user
             res.status(200).json({
                 msg: "User cart data found",
+                data: data
+            });
+        }
+    })
+}
+
+userController.getAllOrderData = (req, res) => {
+    checkOutProductModel.find((err, data) => {
+        if (err) {
+            res.status(401).json({
+                error: err
+            });
+        } else {
+            res.status(200).json({
+                msg: "All order data found",
                 data: data
             });
         }

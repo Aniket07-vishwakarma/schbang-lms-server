@@ -6,6 +6,9 @@ var userLoginData = new schema({
     emailAdd: {type: String, default: ""},
     password: {type: String, default: ""},
     userId: {type: String, default: ""},
+}, 
+{
+    timestamps: true
 });
 
 module.exports = mongoose.model("userLoginData", userLoginData);

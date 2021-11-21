@@ -23,6 +23,7 @@ async function sentMail(orderData) {
         html: `<h3>Dear ${orderData.userName},</h3>
                <p>Thank you for your order. We’ll send a confirmation when your order ships. Your order deatils is given below.</p>
                <hr>
+               <p>Order Id: <b>${orderData._id}</b></p>
                <p>Total cost: <b>Rs.${orderData.totalOrderCost}</b></p>
                <p>Shipping Address: ${orderData.shippingAdd}</p>
                <p>Estimated Delivery day: <b>4 days</b></p>

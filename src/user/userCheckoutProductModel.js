@@ -17,6 +17,9 @@ var checkOutProductModel = new schema({
     ],
     totaNumberOfProducts: {type: Number, default: ""},
     totalOrderCost: {type: String, default: ""},
+}, 
+{
+    timestamps: true
 });
 
 module.exports = mongoose.model("orderData", checkOutProductModel);

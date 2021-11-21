@@ -8,6 +8,7 @@ const nodemailer = require('nodemailer');
 
 let userController = {};
 
+//save all user login data
 userController.userLoginData = (req, res) => {
 
     let userId = jwt.sign(req.body.emailAdd, "eComm");
@@ -28,7 +29,7 @@ userController.userLoginData = (req, res) => {
     })
 }
 
-
+// save all user cart data
 userController.saveCartData = (req, res) => {
     let userCartData = new userCartModel(req.body);
     userCartData.save((err, data) => {
@@ -45,6 +46,8 @@ userController.saveCartData = (req, res) => {
     })
 }
 
+
+//update cart data by using push to add cart product to an array 
 userController.updateCartDataToAdd = (req, res) => {
     userCartModel.update(
         { userId: req.body.userId },
@@ -63,6 +66,8 @@ userController.updateCartDataToAdd = (req, res) => {
         })
 }
 
+
+//update cart data using pull to remove cart product from an array
 userController.updateCartDataToRemove = (req, res) => {
     console.log(JSON.stringify(req.body.id), req.body);
     userCartModel.update(
@@ -82,6 +87,8 @@ userController.updateCartDataToRemove = (req, res) => {
         })
 }
 
+
+//get all user cart data
 userController.getAllCartData = (req, res) => {
     userCartModel.find({ userId: req.query.userId }, (err, data) => {
         if (err) {
@@ -97,6 +104,7 @@ userController.getAllCartData = (req, res) => {
     })
 }
 
+//delete cart data of user after checkout
 userController.removeCartData = (req, res) => {
     userCartModel.remove({ userId: req.query.userId }, (err, data) => {
         if (err) {
@@ -112,6 +120,8 @@ userController.removeCartData = (req, res) => {
     })
 }
 
+
+//save all order data
 userController.saveOrderData = (req, res) => {
     let checkOutProductData = new checkOutProductModel(req.body);
     checkOutProductData.save((err, data) => {
@@ -120,8 +130,7 @@ userController.saveOrderData = (req, res) => {
                 error: err
             });
         } else {
-            // sentMail().catch(console.error);
-            sendAMail(data).catch(console.error);
+            sendAMail(data).catch(console.error); // send email to user
             res.status(200).json({
                 msg: "User cart data found",
                 data: data
